@@ -1,0 +1,82 @@
+/*
+Copyright zhigui Corp. All Rights Reserved.
+
+SPDX-License-Identifier: Apache-2.0
+*/
+
+syntax = "proto3";
+
+option java_package = "org.bootapp.protos.utlcore";
+option java_outer_classname = "MFAPackage";
+option go_package = "grpc-swagger/protos/utlcore";
+
+package protos;
+
+import "utlcore/common.proto";
+import "google/api/annotations.proto";
+
+// Interface exported by the server.
+service Sms {
+    rpc SendSMS(SMSRequest) returns (SMSResponse) {
+        option (google.api.http) = {
+            get: "/v1/security/sms/send/{phone_number}/{content}"
+        };
+    }
+    rpc VerifySMS(SMSVerifyRequest) returns (ServerStatus) {
+//        option (google.api.http) = {
+//            get: "/v1/security/sms/verify/{type}/{phone_number}/{auth_code}"
+//        };
+    }
+    rpc CheckPhone(CheckPhoneRequest) returns (ServerStatus) {
+//        option (google.api.http) = {
+//            get: "/v1/security/sms/check/{phone_number}"
+//        };
+    }
+}
+
+message SMSRequest {
+    enum Type {
+        UNDEFINED = 0;
+        REGISTER = 1;
+        LOGIN = 2;
+        LOGIN_NOTICE = 3;
+        CHANGE_PASSWORD = 4;
+        RESET_PASSWORD =5;
+        BIND_PHONE_NUMBER = 6;
+        CHANGE_OLD_PHONE = 7;
+        CHANGE_NEW_PHONE = 8;
+        BIND_GA = 9;
+        RESET_GA = 10;
+        SET_CURRENCY_PASSWORD = 11;
+        RESET_CURRENCY_PASSWORD = 12;
+        CURRENCY_NO_PASSWORD = 13;
+        ADD_WITHDRAW_ADDRESS = 14;
+        WITHDRAW_DEPOSIT = 15;
+        WITHDRAW_CONFIRM = 16;
+        WITHDRAW_NOTICE = 17;
+        CREATE_API_KEY = 18;
+        CHECK_API_KEY =19;
+    }
+
+    Type aaa = 1;
+    string phone_number = 2;
+    string content = 3;
+}
+
+message SMSResponse {
+    StatusCode status = 1;
+    int64 day_limit = 2;
+    int64 hour_limit = 3;
+    int64 minute_limit = 4;
+    int64 expire = 5;
+}
+
+message SMSVerifyRequest {
+    SMSRequest.Type type = 1;
+    string phone_number = 2;
+    string auth_code = 3;
+}
+
+message CheckPhoneRequest {
+    string phone_number = 1;
+}

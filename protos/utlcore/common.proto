@@ -1,0 +1,38 @@
+/*
+Copyright zhigui Corp. All Rights Reserved.
+
+SPDX-License-Identifier: Apache-2.0
+*/
+
+syntax = "proto3";
+
+option java_package = "org.bootapp.protos.utlcore";
+option java_outer_classname = "MFAPackage";
+option go_package = "grpc-swagger/protos/utlcore";
+
+package protos;
+
+enum StatusCode {
+    SUCCESS = 0;
+    FAILED = 1;
+    SMS_SEND_TRY = 2;
+    SMS_MINUTE_LIMIT = 3;
+    SMS_HOUR_LIMIT = 4;
+    SMS_DAY_LIMIT = 5;
+    SMS_PHONE_NOT_EXISTS = 6;
+    EMAIL_MINUTE_LIMIT = 7;
+    EMAIL_HOUR_LIMIT = 8;
+    EMAIL_DAY_LIMIT = 9;
+}
+
+enum LanguageType {
+    UNDEFINED = 0;
+    CN = 1;
+    EN = 2;
+    KR = 3;
+    JP = 4;
+}
+
+message ServerStatus {
+    StatusCode status = 1;
+}

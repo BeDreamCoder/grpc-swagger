@@ -1,0 +1,71 @@
+/*
+Copyright zhigui Corp. All Rights Reserved.
+
+SPDX-License-Identifier: Apache-2.0
+*/
+
+syntax = "proto3";
+
+option java_package = "org.bootapp.protos.utlcore";
+option java_outer_classname = "MFAPackage";
+option go_package = "grpc-swagger/protos/utlcore";
+
+package protos;
+
+import "utlcore/common.proto";
+import "google/api/annotations.proto";
+
+// Interface exported by the server.
+service Captcha {
+    rpc GetCaptcha(CaptchaRequest) returns (stream CaptchaResponse) {
+
+    }
+    rpc VerifyCaptcha(CaptchaVerifyRequest) returns (ServerStatus) {
+        option (google.api.http) = {
+            post: "/v1/security/captcha"
+            body: "*"
+        };
+    }
+}
+
+message CaptchaRequest {
+}
+
+message GeetestCaptchaResponse {
+    string challenge = 1;
+}
+
+message GraphicalCaptchaResponse {
+    bytes graph = 1;
+}
+
+message CaptchaResponse {
+    enum Type {
+        UNDEFINED = 0;
+        GEETEST = 1;
+        GRAPHICAL = 2;
+    }
+    Type type = 1;
+    oneof captcha {
+        GeetestCaptchaResponse gt = 2;
+        GraphicalCaptchaResponse graph = 3;
+    }
+}
+
+message GeetestCaptchaVerify {
+    string gt_challenge = 1;
+    string gt_validate = 2;
+    string gt_seccode = 3;
+}
+
+message GraphicalCaptchaVerify {
+    string auth_code = 1;
+}
+
+message CaptchaVerifyRequest {
+    CaptchaResponse.Type type = 1;
+    oneof content {
+        GeetestCaptchaVerify gt = 2;
+        GraphicalCaptchaVerify graph = 3;
+    }
+}

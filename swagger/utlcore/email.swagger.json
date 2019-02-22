@@ -1,0 +1,94 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "utlcore/email.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "protosEmailRequestType": {
+      "type": "string",
+      "enum": [
+        "UNDEFINED",
+        "ACTIVATION",
+        "WELCOME",
+        "BIND_PHONE_NUMBER",
+        "CHANGE_PHONE_NUMBER",
+        "RESET_PASSWORD",
+        "RESET_CURRENCY_PASSWORD",
+        "WITHDRAW_DEPOSIT",
+        "CREATE_API_KEY"
+      ],
+      "default": "UNDEFINED"
+    },
+    "protosEmailResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/protosStatusCode"
+        },
+        "day_limit": {
+          "type": "string",
+          "format": "int64"
+        },
+        "hour_limit": {
+          "type": "string",
+          "format": "int64"
+        },
+        "minute_limit": {
+          "type": "string",
+          "format": "int64"
+        },
+        "expire": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "protosLanguageType": {
+      "type": "string",
+      "enum": [
+        "UNDEFINED",
+        "CN",
+        "EN",
+        "KR",
+        "JP"
+      ],
+      "default": "UNDEFINED"
+    },
+    "protosServerStatus": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/protosStatusCode"
+        }
+      }
+    },
+    "protosStatusCode": {
+      "type": "string",
+      "enum": [
+        "SUCCESS",
+        "FAILED",
+        "SMS_SEND_TRY",
+        "SMS_MINUTE_LIMIT",
+        "SMS_HOUR_LIMIT",
+        "SMS_DAY_LIMIT",
+        "SMS_PHONE_NOT_EXISTS",
+        "EMAIL_MINUTE_LIMIT",
+        "EMAIL_HOUR_LIMIT",
+        "EMAIL_DAY_LIMIT"
+      ],
+      "default": "SUCCESS"
+    }
+  }
+}

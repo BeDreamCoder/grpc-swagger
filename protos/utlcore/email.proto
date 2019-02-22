@@ -1,0 +1,65 @@
+/*
+Copyright zhigui Corp. All Rights Reserved.
+
+SPDX-License-Identifier: Apache-2.0
+*/
+
+syntax = "proto3";
+
+option java_package = "org.bootapp.protos.utlcore";
+option java_outer_classname = "MFAPackage";
+option go_package = "grpc-swagger/protos/utlcore";
+
+package protos;
+
+import "utlcore/common.proto";
+
+
+// Interface exported by the server.
+service Email {
+    rpc SendEmail(EmailRequest) returns (EmailResponse) {
+
+    }
+    rpc VerifyEmail(EmailVerifyRequest) returns (ServerStatus) {
+
+    }
+    rpc CheckEmail(EmailCheckRequest) returns (ServerStatus) {
+
+    }
+}
+
+message EmailRequest {
+    enum Type {
+        UNDEFINED = 0;
+        ACTIVATION = 1;
+        WELCOME = 2;
+        BIND_PHONE_NUMBER = 3;
+        CHANGE_PHONE_NUMBER = 4;
+        RESET_PASSWORD = 5;
+        RESET_CURRENCY_PASSWORD = 6;
+        WITHDRAW_DEPOSIT = 7;
+        CREATE_API_KEY = 8;
+    }
+
+    Type type = 1;
+    string email = 2;
+    LanguageType language = 3;
+}
+
+message EmailResponse {
+    StatusCode status = 1;
+    int64 day_limit = 2;
+    int64 hour_limit = 3;
+    int64 minute_limit = 4;
+    int64 expire = 5;
+}
+
+message EmailVerifyRequest {
+    EmailRequest.Type type = 1;
+    string email = 2;
+    string auth_code = 3;
+}
+
+message EmailCheckRequest {
+    string email = 1;
+}

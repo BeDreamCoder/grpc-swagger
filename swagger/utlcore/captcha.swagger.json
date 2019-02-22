@@ -1,0 +1,198 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "utlcore/captcha.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/security/captcha": {
+      "post": {
+        "operationId": "VerifyCaptcha",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/protosServerStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/protosCaptchaVerifyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Captcha"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "protosCaptchaResponse": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/protosCaptchaResponseType"
+        },
+        "gt": {
+          "$ref": "#/definitions/protosGeetestCaptchaResponse"
+        },
+        "graph": {
+          "$ref": "#/definitions/protosGraphicalCaptchaResponse"
+        }
+      }
+    },
+    "protosCaptchaResponseType": {
+      "type": "string",
+      "enum": [
+        "UNDEFINED",
+        "GEETEST",
+        "GRAPHICAL"
+      ],
+      "default": "UNDEFINED"
+    },
+    "protosCaptchaVerifyRequest": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/protosCaptchaResponseType"
+        },
+        "gt": {
+          "$ref": "#/definitions/protosGeetestCaptchaVerify"
+        },
+        "graph": {
+          "$ref": "#/definitions/protosGraphicalCaptchaVerify"
+        }
+      }
+    },
+    "protosGeetestCaptchaResponse": {
+      "type": "object",
+      "properties": {
+        "challenge": {
+          "type": "string"
+        }
+      }
+    },
+    "protosGeetestCaptchaVerify": {
+      "type": "object",
+      "properties": {
+        "gt_challenge": {
+          "type": "string"
+        },
+        "gt_validate": {
+          "type": "string"
+        },
+        "gt_seccode": {
+          "type": "string"
+        }
+      }
+    },
+    "protosGraphicalCaptchaResponse": {
+      "type": "object",
+      "properties": {
+        "graph": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "protosGraphicalCaptchaVerify": {
+      "type": "object",
+      "properties": {
+        "auth_code": {
+          "type": "string"
+        }
+      }
+    },
+    "protosServerStatus": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/protosStatusCode"
+        }
+      }
+    },
+    "protosStatusCode": {
+      "type": "string",
+      "enum": [
+        "SUCCESS",
+        "FAILED",
+        "SMS_SEND_TRY",
+        "SMS_MINUTE_LIMIT",
+        "SMS_HOUR_LIMIT",
+        "SMS_DAY_LIMIT",
+        "SMS_PHONE_NOT_EXISTS",
+        "EMAIL_MINUTE_LIMIT",
+        "EMAIL_HOUR_LIMIT",
+        "EMAIL_DAY_LIMIT"
+      ],
+      "default": "SUCCESS"
+    },
+    "runtimeStreamError": {
+      "type": "object",
+      "properties": {
+        "grpc_code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "http_code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "http_status": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  },
+  "x-stream-definitions": {
+    "protosCaptchaResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/protosCaptchaResponse"
+        },
+        "error": {
+          "$ref": "#/definitions/runtimeStreamError"
+        }
+      },
+      "title": "Stream result of protosCaptchaResponse"
+    }
+  }
+}
