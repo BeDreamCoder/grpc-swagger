@@ -1,4 +1,4 @@
-## Grpc Hello World
+## Grpc Swagger
 
 本项目提供[Grpc+Grpc Gateway实践](https://segmentfault.com/a/1190000013408485)的示例代码
 
